@@ -1,14 +1,11 @@
 const currencyFirstEl = document.getElementById("currency-first");
-
 const worthFirstEl = document.getElementById("worth-first");
-
 const currencySecondEl = document.getElementById("currency-second");
-
 const worthSecondEl = document.getElementById("worth-second");
-
 const exchangeRateEl = document.getElementById("exchange-rate");
+const convertedValueEl = document.getElementById("converted-value");
 
-updateRate()
+updateRate();
 
 function updateRate() {
   fetch(
@@ -17,17 +14,13 @@ function updateRate() {
     .then((res) => res.json())
     .then((data) => {
       const rate = data.conversion_rates[currencySecondEl.value];
-      console.log(rate);
-      exchangeRateEl.innerText = `1 ${currencyFirstEl.value} = ${
-        rate + " " + currencySecondEl.value
-      }`;
-
-      worthSecondEl.value = (worthFirstEl.value * rate).toFixed(2)
+      exchangeRateEl.innerText = `1 ${currencyFirstEl.value} = ${rate} ${currencySecondEl.value}`;
+      const convertedValue = (worthFirstEl.value * rate).toFixed(2);
+      worthSecondEl.value = convertedValue;
+      convertedValueEl.innerText = `${worthFirstEl.value} ${currencyFirstEl.value} = ${convertedValue} ${currencySecondEl.value}`;
     });
 }
 
 currencyFirstEl.addEventListener("change", updateRate);
-
 currencySecondEl.addEventListener("change", updateRate);
-
 worthFirstEl.addEventListener("input", updateRate);
